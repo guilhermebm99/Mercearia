@@ -16,7 +16,7 @@ namespace Models
             {
 
 
-                return StringDeConexao;
+                return stringDeConexao;
 
             } 
         }

@@ -105,7 +105,7 @@ namespace DAL
                 cmd.CommandType = System.Data.CommandType.Text;
 
 
-                cmd.Parameters.AddWithValue("@Id", _usuario.Id);
+                cmd.Parameters.AddWithValue("@Id", _id);
                 
 
                 cn.Open();

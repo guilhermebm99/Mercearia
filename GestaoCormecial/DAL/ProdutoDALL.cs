@@ -82,20 +82,24 @@ namespace DAL
 
 
         }
-        public void Excluir(Produto _produto)
+        public void Excluir(int _id)
         {
+
             SqlConnection cn = new SqlConnection(Constantes1.StringDeConexao);
             try
             {
 
                 SqlCommand cmd = cn.CreateCommand();
 
-                cmd.CommandText = @" Delete from Produto
-                                  Where Id = @Id";
+                cmd.CommandText = @"Delete from Produto
+                                 Where Id = @Id";
+
 
                 cmd.CommandType = System.Data.CommandType.Text;
 
-                cmd.Parameters.AddWithValue("@Id", _produto.Id);
+
+                cmd.Parameters.AddWithValue("@Id", _id);
+
 
                 cn.Open();
                 cmd.ExecuteNonQuery();
@@ -114,6 +118,7 @@ namespace DAL
 
 
 
+
         }
         public List<Produto> BuscarTodos()
         {
@@ -123,17 +128,71 @@ namespace DAL
 
         }
 
+        public Produto BuscarPorId(int _id)
+        {
 
+            Produto produto;
 
+            SqlConnection cn = new SqlConnection(Constantes1.StringDeConexao);
 
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
 
+                cmd.CommandText = "SELECT Nome,Preco,Estoque FROM Produto WHERE Id = @Id";
+                cmd.CommandType = System.Data.CommandType.Text;
 
+                cmd.Parameters.AddWithValue("@Id", _id);
 
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    produto = new Produto();
+                    if (rd.Read())
+                    {
+                        produto.Id = (int)rd["Id"];
+                        produto.Nome = rd["Nome"].ToString();
+                        produto.Preco = (double)rd["Preco"];
+                        produto.Estoque = (double)rd["Estoque"];
+                    }
+                }
+                return produto;
 
+            }
+            catch (Exception ex)
+            {
 
+                throw new Exception("Ocorreu um erro ao tentar inserir o produto no banco de dados", ex);
+            }
+            finally
+            {
 
+                cn.Close();
 
+            }
+
+        }
 
 
     }
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
