@@ -39,19 +39,20 @@
             this.buttonCancelar = new System.Windows.Forms.Button();
             this.buttonSalvar = new System.Windows.Forms.Button();
             this.dataGridViewUsuario = new System.Windows.Forms.DataGridView();
-            this.bindingSourceUsuario = new System.Windows.Forms.BindingSource(this.components);
             this.nomeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nomeUsuarioDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ativoDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.bindingSourceUsuario = new System.Windows.Forms.BindingSource(this.components);
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUsuario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceUsuario)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxBuscarPor
             // 
-            this.textBoxBuscarPor.Location = new System.Drawing.Point(12, 84);
+            this.textBoxBuscarPor.Location = new System.Drawing.Point(177, 84);
             this.textBoxBuscarPor.Name = "textBoxBuscarPor";
-            this.textBoxBuscarPor.Size = new System.Drawing.Size(509, 27);
+            this.textBoxBuscarPor.Size = new System.Drawing.Size(344, 27);
             this.textBoxBuscarPor.TabIndex = 0;
             // 
             // buttonBuscar
@@ -141,17 +142,13 @@
             this.nomeUsuarioDataGridViewTextBoxColumn,
             this.ativoDataGridViewCheckBoxColumn});
             this.dataGridViewUsuario.DataSource = this.bindingSourceUsuario;
-            this.dataGridViewUsuario.Location = new System.Drawing.Point(12, 115);
+            this.dataGridViewUsuario.Location = new System.Drawing.Point(20, 115);
             this.dataGridViewUsuario.Name = "dataGridViewUsuario";
             this.dataGridViewUsuario.ReadOnly = true;
             this.dataGridViewUsuario.RowHeadersWidth = 51;
             this.dataGridViewUsuario.RowTemplate.Height = 29;
             this.dataGridViewUsuario.Size = new System.Drawing.Size(918, 286);
             this.dataGridViewUsuario.TabIndex = 9;
-            // 
-            // bindingSourceUsuario
-            // 
-            this.bindingSourceUsuario.DataSource = typeof(Models.Usuario);
             // 
             // nomeDataGridViewTextBoxColumn
             // 
@@ -180,11 +177,29 @@
             this.ativoDataGridViewCheckBoxColumn.ReadOnly = true;
             this.ativoDataGridViewCheckBoxColumn.Width = 60;
             // 
+            // bindingSourceUsuario
+            // 
+            this.bindingSourceUsuario.DataSource = typeof(Models.Usuario);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Nome",
+            "Nome de usuário",
+            "Todos"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 84);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(151, 28);
+            this.comboBox1.TabIndex = 10;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // FormBuscarUsuariocs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(938, 450);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.dataGridViewUsuario);
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.buttonSalvar);
@@ -220,5 +235,6 @@
         private DataGridViewTextBoxColumn nomeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn nomeUsuarioDataGridViewTextBoxColumn;
         private DataGridViewCheckBoxColumn ativoDataGridViewCheckBoxColumn;
+        private ComboBox comboBox1;
     }
 }

@@ -50,6 +50,30 @@ namespace BLL
         }
 
 
+        public List<Cliente> BuscarPorNome(string _nome)
+        {
+            return new ClienteDALL().BuscarPornome(_nome);
+
+
+        }
+
+        public Cliente BuscarPorNomeCliente(string _nomeCliente)
+        {
+            return new ClienteDALL().BuscarPornomeCliente(_nomeCliente);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

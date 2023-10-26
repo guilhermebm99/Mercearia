@@ -12,7 +12,7 @@ namespace DAL
 
         public void Inserir(Produto _produto)
         {
-            SqlConnection cn = new SqlConnection(Constantes1.StringDeConexao);
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
             try
             {
 
@@ -47,7 +47,7 @@ namespace DAL
         }
         public void Alterar(Produto _produto)
         {
-            SqlConnection cn = new SqlConnection(Constantes1.StringDeConexao);
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
             try
             {
 
@@ -85,7 +85,7 @@ namespace DAL
         public void Excluir(int _id)
         {
 
-            SqlConnection cn = new SqlConnection(Constantes1.StringDeConexao);
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
             try
             {
 
@@ -123,7 +123,51 @@ namespace DAL
         public List<Produto> BuscarTodos()
         {
 
-            throw new NotImplementedException();
+            List<Produto> produtoList = new List<Produto>();
+            Produto produto;
+
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+
+                cmd.CommandText = "SELECT Id,Nome, Preco, Estoque FROM Produto";
+
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+
+                        produto = new Produto();
+                        produto.Id = (int)rd["Id"];
+                        produto.Nome = rd["Nome"].ToString();
+                        produto.Preco = (double)rd["Preco"];
+                        produto.Estoque = (double)rd["Estoque"];
+                        produto.Barras = rd["Barras"].ToString();
+                        produtoList.Add(produto);
+                    }
+
+
+                }
+                return produtoList;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ocorreu um erro ao tentar buscar o usuário no banco de dados", ex);
+            }
+            finally
+            {
+
+                cn.Close();
+
+            }
+
 
 
         }
@@ -133,7 +177,7 @@ namespace DAL
 
             Produto produto;
 
-            SqlConnection cn = new SqlConnection(Constantes1.StringDeConexao);
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
 
             try
             {
@@ -173,26 +217,114 @@ namespace DAL
 
         }
 
+        
 
+        public Produto BuscarPornomeProduto(string nomeProduto)
+        {
+            Produto produto;
+
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+
+                cmd.CommandText = @"SELECT Nome,Preco,Estoque
+                                   FROM Produto
+                                   WHERE Nome LIKE  @Nome";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@Nome", nomeProduto);
+
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    produto = new Produto();
+                    if (rd.Read())
+                    {
+
+                        produto.Nome = rd["Nome"].ToString();
+                        produto.Preco = (double)rd["PRECO"];
+                        produto.Preco = (double)rd["Estoque"];
+
+
+                    }
+                }
+                return produto;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ocorreu um erro ao tentar mostrar o produto por nome de produto no banco de dados", ex);
+            }
+            finally
+            {
+
+                cn.Close();
+
+            }
+        }
+
+        public List<Produto> BuscarPornome(string nome)
+        {
+            List<Produto> produtoList = new List<Produto>();
+            Produto produto;
+
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+
+                cmd.CommandText = @"SELECT Id,Nome,Preco,Estoque
+                                   FROM Produto
+                                   WHERE Nome LIKE  @Nome";
+
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@Nome", "%" + nome + "%");
+
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        produto = new Produto();
+                        produto.Id = (int)rd["Id"];
+                        produto.Nome = rd["Nome"].ToString();
+                        produto.Preco = (double)rd["preco"];
+                        produto.Estoque = (double)rd["estoque"];
+                        produtoList.Add(produto);
+
+                    }
+
+
+                }
+                return produtoList;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Ocorreu um erro ao tentar buscar o produto no banco de dados", ex);
+            }
+            finally
+            {
+
+                cn.Close();
+
+            }
+
+
+
+
+
+
+
+        }
     }
-     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
+
 

@@ -14,5 +14,21 @@ namespace UWinFormsApp
                 frm.ShowDialog();
             }
         }
+
+        private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FormBuscarCliente frm = new FormBuscarCliente())
+            {
+                frm.ShowDialog();
+            }
+        }
+
+        private void produtosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FormBuscarProduto frm = new FormBuscarProduto())
+            {
+                frm.ShowDialog();
+            }
+        }
     }
 }

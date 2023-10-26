@@ -49,6 +49,16 @@ namespace BLL
 
         }
 
+        public List<Usuario> BuscarPorNome(string _nome)
+        {
+            return new UsuarioDAL().BuscarPornome(_nome);
 
+
+        }
+
+        public Usuario BuscarPorNomeUsuario(string _nomeUsuario)
+        {
+            return new UsuarioDAL().BuscarPornomeUsuario(_nomeUsuario);
+        }
     }
 }

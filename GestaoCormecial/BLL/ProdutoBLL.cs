@@ -50,12 +50,23 @@ namespace BLL
         }
 
 
+
+
+        public List<Produto> BuscarPorNome(string _nome)
+        {
+            return new ProdutoDall().BuscarPornome(_nome);
+
+
+        }
+
+        public Produto BuscarPorNomeProduto(string _nomeProduto)
+        {
+            return new ProdutoDall().BuscarPornomeProduto(_nomeProduto);
+        }
+
+
+
     }
-
-
-
-
-
 
 
 }

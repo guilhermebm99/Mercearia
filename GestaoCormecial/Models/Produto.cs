@@ -15,6 +15,7 @@ namespace Models
 
         public double Estoque { get; set; }
 
+        public string Barras { get; set; }
 
     }
 }
