@@ -1,121 +1,172 @@
 ﻿
 using Microsoft.VisualBasic;
 using Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DAL
 {
     public class ClienteDALL
     {
-        public void Inserir(Cliente _cliente)
+        public void Inserir(Cliente _cliente, SqlTransaction _transaction = null)
         {
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
+                using (SqlCommand cmd = new SqlCommand(@"Insert into Cliente (Nome, Fone)
+                                    VALUES(@Nome,@Fone)"))
+                {
 
-                SqlCommand cmd = cn.CreateCommand();
-
-                cmd.CommandText = @"Insert into Cliente (Nome, Fone)
-                                    VALUES(@Nome,@Fone)";
-
-                cmd.CommandType = System.Data.CommandType.Text;
+                    try
+                    {
 
 
-                cmd.Parameters.AddWithValue("@Nome", _cliente.Nome);
-                cmd.Parameters.AddWithValue("@Fone", _cliente.Fone);
-   
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
-                cn.Close();
+                        cmd.CommandType = System.Data.CommandType.Text;
+
+
+
+
+                        cmd.Parameters.AddWithValue("@Nome", _cliente.Nome);
+                        cmd.Parameters.AddWithValue("@Fone", _cliente.Fone);
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar inserir o cliente no banco de dados", ex);
+                    }
+                }
+
             }
-            catch (Exception ex)
-            {
+        }
 
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
-            }
-            finally
-            {
-
-                cn.Close();
-            }
-
-
-        }                   
-        public void Alterar(Cliente _cliente)
+        public void Alterar(Cliente _cliente, SqlTransaction _transaction = null)
         {
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
-
-                SqlCommand cmd = cn.CreateCommand();
-
-                cmd.CommandText = @"UPDATE Cliente SET Nome = @Nome,
+                using (SqlCommand cmd = new SqlCommand(@"UPDATE Cliente SET Nome = @Nome,
                   Fone = @Fone
-                  WHERE Id = @Id";
-                cmd.CommandType = System.Data.CommandType.Text;
+                  WHERE Id = @Id"))
+                {
 
-                cmd.Parameters.AddWithValue("@Nome", _cliente.Id);
-                cmd.Parameters.AddWithValue("@Nome", _cliente.Nome);
-                cmd.Parameters.AddWithValue("@Fone", _cliente.Fone);
+                    try
+                    {
 
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
-                cn.Close();
+
+                        cmd.CommandType = System.Data.CommandType.Text;
+
+                        cmd.Parameters.AddWithValue("@Nome", _cliente.Id);
+                        cmd.Parameters.AddWithValue("@Nome", _cliente.Nome);
+                        cmd.Parameters.AddWithValue("@Fone", _cliente.Fone);
+
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar inserir o cliente no banco de dados", ex);
+                    }
+                }
+
             }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
-            }
-            finally
-            {
-
-                cn.Close();
-            }
-
-
-
         }
-        public void Excluir(int _id)
+
+
+        public void Excluir(int _id, SqlTransaction _transaction = null)
         {
+            SqlTransaction transaction = _transaction;
 
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
+                using (SqlCommand cmd = new SqlCommand(@"Delete from Cliente
+                                 Where Id = @Id"))
+                {
 
-                SqlCommand cmd = cn.CreateCommand();
-
-                cmd.CommandText = @"Delete from Cliente
-                                 Where Id = @Id";
-
-
-                cmd.CommandType = System.Data.CommandType.Text;
+                    try
+                    {
 
 
-                cmd.Parameters.AddWithValue("@Id", _id);
+
+                        cmd.CommandType = System.Data.CommandType.Text;
 
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
-                cn.Close();
-            }
-            catch (Exception ex)
-            {
+                        cmd.Parameters.AddWithValue("@Id", _id);
 
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
-            }
-            finally
-            {
 
-                cn.Close();
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar excluir o cliente no banco de dados", ex);
+                    }
+                }
+
             }
 
 
 
 
         }
+
+
+
+
         public List<Cliente> BuscarTodos()
         {
 

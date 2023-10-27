@@ -93,6 +93,7 @@
             this.buttonAlterar.TabIndex = 4;
             this.buttonAlterar.Text = "&Alterar";
             this.buttonAlterar.UseVisualStyleBackColor = true;
+            this.buttonAlterar.Click += new System.EventHandler(this.buttonAlterar_Click);
             // 
             // buttonInserir
             // 
@@ -111,6 +112,7 @@
             this.buttonExcluir.TabIndex = 6;
             this.buttonExcluir.Text = "&Excluir";
             this.buttonExcluir.UseVisualStyleBackColor = true;
+            this.buttonExcluir.Click += new System.EventHandler(this.buttonExcluir_Click);
             // 
             // buttonCancelar
             // 
@@ -198,6 +200,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.buttonCancelar;
             this.ClientSize = new System.Drawing.Size(938, 450);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.dataGridViewUsuario);

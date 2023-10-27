@@ -30,18 +30,18 @@
         {
             this.components = new System.ComponentModel.Container();
             this.textBoxNome = new System.Windows.Forms.TextBox();
+            this.bindingSourceCadastro = new System.Windows.Forms.BindingSource(this.components);
             this.textBoxNomeUsuario = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxSenha = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBoxConfima = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.checkBoxAtivo = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.bindingSourceCadastro = new System.Windows.Forms.BindingSource(this.components);
             this.produtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceCadastro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.produtoBindingSource)).BeginInit();
@@ -54,6 +54,10 @@
             this.textBoxNome.Name = "textBoxNome";
             this.textBoxNome.Size = new System.Drawing.Size(340, 27);
             this.textBoxNome.TabIndex = 0;
+            // 
+            // bindingSourceCadastro
+            // 
+            this.bindingSourceCadastro.DataSource = typeof(Models.Usuario);
             // 
             // textBoxNomeUsuario
             // 
@@ -99,12 +103,12 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Senha";
             // 
-            // textBox4
+            // textBoxConfima
             // 
-            this.textBox4.Location = new System.Drawing.Point(404, 170);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(205, 27);
-            this.textBox4.TabIndex = 6;
+            this.textBoxConfima.Location = new System.Drawing.Point(404, 170);
+            this.textBoxConfima.Name = "textBoxConfima";
+            this.textBoxConfima.Size = new System.Drawing.Size(205, 27);
+            this.textBoxConfima.TabIndex = 6;
             // 
             // label4
             // 
@@ -157,10 +161,6 @@
             this.label5.Text = "Cadastrar usuário";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // bindingSourceCadastro
-            // 
-            this.bindingSourceCadastro.DataSource = typeof(Models.Usuario);
-            // 
             // produtoBindingSource
             // 
             this.produtoBindingSource.DataSource = typeof(Models.Produto);
@@ -175,7 +175,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBoxAtivo);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.textBoxConfima);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBoxSenha);
             this.Controls.Add(this.label2);
@@ -208,5 +208,6 @@
         private Label label5;
         private BindingSource bindingSourceCadastro;
         private BindingSource produtoBindingSource;
+        private TextBox textBoxConfima;
     }
 }

@@ -3,6 +3,7 @@
 using Microsoft.VisualBasic;
 using Models;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DAL
@@ -10,110 +11,158 @@ namespace DAL
     public class ProdutoDall
     {
 
-        public void Inserir(Produto _produto)
+        public void Inserir(Produto _produto, SqlTransaction _transaction = null)
         {
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
+                using (SqlCommand cmd = new SqlCommand(@"Insert into Produto(Nome, Preco, Estoque)
+                                    VALUES(@Nome, @Preco, @Estoque)"))
+                {
 
-                SqlCommand cmd = cn.CreateCommand();
-
-                cmd.CommandText = @"Insert into Produto(Nome, Preco, Estoque)
-                                    VALUES(@Nome, @Preco, @Estoque)";
-
-                cmd.CommandType = System.Data.CommandType.Text;
+                    try
+                    {
 
 
-                cmd.Parameters.AddWithValue("@Nome", _produto.Nome);
-                cmd.Parameters.AddWithValue("@Preco", _produto.Preco);
-                cmd.Parameters.AddWithValue("@Estoque", _produto.Estoque);
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
-                cn.Close();
+                        cmd.CommandType = System.Data.CommandType.Text;
+
+
+
+                        cmd.Parameters.AddWithValue("@Nome", _produto.Nome);
+                        cmd.Parameters.AddWithValue("@Preco", _produto.Preco);
+                        cmd.Parameters.AddWithValue("@Estoque", _produto.Estoque);
+
+
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
+                    }
+                }
+
             }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
-            }
-            finally
-            {
-
-                cn.Close();
-            }
-
-
         }
-        public void Alterar(Produto _produto)
+
+
+        public void Alterar(Produto _produto, SqlTransaction _transaction = null)
         {
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
+                using (SqlCommand cmd = new SqlCommand(@"UPDATE Produto SET Nome = @Nome,
+                  Preco = @Preco  WHERE Id = @Id"))
+                {
 
-                SqlCommand cmd = cn.CreateCommand();
-
-                cmd.CommandText = @"UPDATE Produto SET Nome = @Nome,
-                  Preco = @Preco  WHERE Id = @Id";
-                 
-                cmd.CommandType = System.Data.CommandType.Text;
-
-                cmd.Parameters.AddWithValue("@Nome", _produto.Nome);
-                cmd.Parameters.AddWithValue("@Preco", _produto.Preco);
-                cmd.Parameters.AddWithValue("@Estoque", _produto.Estoque);
+                    try
+                    {
 
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
-                cn.Close();
+
+                        cmd.CommandType = System.Data.CommandType.Text;
+
+
+
+                        cmd.Parameters.AddWithValue("@Nome", _produto.Nome);
+                        cmd.Parameters.AddWithValue("@Preco", _produto.Preco);
+                        cmd.Parameters.AddWithValue("@Estoque", _produto.Estoque);
+
+
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar inserir o produto no banco de dados", ex);
+                    }
+                }
+
             }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
-            }
-            finally
-            {
-
-                cn.Close();
-            }
-
-
-
-
         }
-        public void Excluir(int _id)
+        public void Excluir(int _id, SqlTransaction _transaction = null)
         {
+            SqlTransaction transaction = _transaction;
 
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
+                using (SqlCommand cmd = new SqlCommand(@"Delete from Produto
+                                 Where Id = @Id"))
+                {
 
-                SqlCommand cmd = cn.CreateCommand();
-
-                cmd.CommandText = @"Delete from Produto
-                                 Where Id = @Id";
-
-
-                cmd.CommandType = System.Data.CommandType.Text;
+                    try
+                    {
 
 
-                cmd.Parameters.AddWithValue("@Id", _id);
+
+                        cmd.CommandType = System.Data.CommandType.Text;
 
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
-                cn.Close();
-            }
-            catch (Exception ex)
-            {
+                        cmd.Parameters.AddWithValue("@Id", _id);
 
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
-            }
-            finally
-            {
 
-                cn.Close();
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar excluir o produto no banco de dados", ex);
+                    }
+                }
+
             }
 
 

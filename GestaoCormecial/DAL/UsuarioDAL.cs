@@ -2,6 +2,7 @@
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography;
@@ -12,116 +13,160 @@ namespace DAL
 {
     public class UsuarioDAL
     {
-        public void Inserir(Usuario _usuario)
+        public void Inserir(Usuario _usuario,SqlTransaction _transaction = null)
         {
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            SqlTransaction transaction = _transaction;  
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
-                  
-                SqlCommand cmd = cn.CreateCommand();
+                using (SqlCommand cmd = new SqlCommand(@"Insert into Usuario(Nome, NomeUsuario, Senha, Ativo )
+                                    VALUES(@Nome,@NomeUsuario, @Senha, @Ativo)"))
+                {
 
-                cmd.CommandText = @"Insert into Usuario(Nome, NomeUsuario, Senha, Ativo )
-                                    VALUES(@Nome,@NomeUsuario, @Senha, @Ativo)";
-
-                cmd.CommandType = System.Data.CommandType.Text;
+                    try
+                    {
 
 
-                cmd.Parameters.AddWithValue("@Nome", _usuario.Nome);
-                cmd.Parameters.AddWithValue("@NomeUsuario", _usuario.NomeUsuario);
-                cmd.Parameters.AddWithValue("@Senha", _usuario.Senha);
-                cmd.Parameters.AddWithValue("@Ativo", _usuario.Ativo);
 
-                cn.Open();
-                cmd.ExecuteNonQuery();  
-                cn.Close(); 
+                        cmd.CommandType = System.Data.CommandType.Text;  
+
+                       
+
+
+                        cmd.Parameters.AddWithValue("@Nome", _usuario.Nome);
+                        cmd.Parameters.AddWithValue("@NomeUsuario", _usuario.NomeUsuario);
+                        cmd.Parameters.AddWithValue("@Senha", _usuario.Senha);
+                        cmd.Parameters.AddWithValue("@Ativo", _usuario.Ativo);
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
+                    }
+                }
+
             }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados",ex);
-            }
-            finally
-            {
-
-                cn.Close();
-            }
-        
         }
-        public void Alterar(Usuario _usuario)
+
+
+        public void Alterar(Usuario _usuario, SqlTransaction _transaction = null)
         {
+            SqlTransaction transaction = _transaction;
 
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
+                using (SqlCommand cmd = new SqlCommand(@"Insert into Usuario(Nome, NomeUsuario, Senha, Ativo )
+                                    VALUES(@Nome,@NomeUsuario, @Senha, @Ativo)"))
+                {
 
-                SqlCommand cmd = cn.CreateCommand();
-
-                cmd.CommandText = @"UPDATE Usuario SET Nome = @Nome,
-                  NomeUsuario = @NomeUsuario,
-                  Senha = @Senha 
-                  WHERE Id = @Id";
-
+                    try
+                    {
 
 
 
+                        cmd.CommandType = System.Data.CommandType.Text;
 
-                cmd.CommandType = System.Data.CommandType.Text;
 
-                cmd.Parameters.AddWithValue("@Id", _usuario.Id);
-                cmd.Parameters.AddWithValue("@Nome", _usuario.Nome);
-                cmd.Parameters.AddWithValue("@NomeUsuario", _usuario.NomeUsuario);
-                cmd.Parameters.AddWithValue("@Senha", _usuario.Senha);
-                cmd.Parameters.AddWithValue("@Ativo", _usuario.Ativo);
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
-                cn.Close();
+
+                        cmd.Parameters.AddWithValue("@Nome", _usuario.Nome);
+                        cmd.Parameters.AddWithValue("@NomeUsuario", _usuario.NomeUsuario);
+                        cmd.Parameters.AddWithValue("@Senha", _usuario.Senha);
+                        cmd.Parameters.AddWithValue("@Ativo", _usuario.Ativo);
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
+                    }
+                }
+
             }
-            catch (Exception ex)
-            {
-
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
-            }
-            finally
-            {
-
-                cn.Close();
-            }
-
-
         }
-        public void Excluir(int _id)
+
+
+        public void Excluir(int _id, SqlTransaction _transaction = null)
         {
+            SqlTransaction transaction = _transaction;
 
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
-            try
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
+                using (SqlCommand cmd = new SqlCommand(@"Delete from Usuario
+                                 Where Id = @Id"))
+                {
 
-                SqlCommand cmd = cn.CreateCommand();
-
-                cmd.CommandText = @"Delete from Usuario
-                                 Where Id = @Id";
-
-
-                cmd.CommandType = System.Data.CommandType.Text;
+                    try
+                    {
 
 
-                cmd.Parameters.AddWithValue("@Id", _id);
-                
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
-                cn.Close();
-            }
-            catch (Exception ex)
-            {
+                        cmd.CommandType = System.Data.CommandType.Text;
 
-                throw new Exception("Ocorreu um erro ao tentar inserir o usuário no banco de dados", ex);
-            }
-            finally
-            {
 
-                cn.Close();
+                        cmd.Parameters.AddWithValue("@Id", _id);
+
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+
+                    {
+
+                        if (transaction.Connection != null && transaction.Connection.State == ConnectionState.Open)
+                            transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar excluir o usuário no banco de dados", ex);
+                    }
+                }
+
             }
 
 

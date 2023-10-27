@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.comboBoxProduto = new System.Windows.Forms.ComboBox();
             this.dataGridViewProduto = new System.Windows.Forms.DataGridView();
+            this.nomeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Barras = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.precoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estoqueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bindingSourceProduto = new System.Windows.Forms.BindingSource(this.components);
             this.buttonCancelarProduto = new System.Windows.Forms.Button();
             this.buttonSalvarProduto = new System.Windows.Forms.Button();
@@ -41,10 +45,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonBuscarProduto = new System.Windows.Forms.Button();
             this.textBoxBuscarPorProduto = new System.Windows.Forms.TextBox();
-            this.nomeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Barras = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.precoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.estoqueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceProduto)).BeginInit();
             this.SuspendLayout();
@@ -81,6 +81,42 @@
             this.dataGridViewProduto.RowTemplate.Height = 29;
             this.dataGridViewProduto.Size = new System.Drawing.Size(918, 286);
             this.dataGridViewProduto.TabIndex = 31;
+            // 
+            // nomeDataGridViewTextBoxColumn
+            // 
+            this.nomeDataGridViewTextBoxColumn.DataPropertyName = "Nome";
+            this.nomeDataGridViewTextBoxColumn.HeaderText = "Nome";
+            this.nomeDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.nomeDataGridViewTextBoxColumn.Name = "nomeDataGridViewTextBoxColumn";
+            this.nomeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nomeDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // Barras
+            // 
+            this.Barras.DataPropertyName = "Barras";
+            this.Barras.HeaderText = "Barras";
+            this.Barras.MinimumWidth = 6;
+            this.Barras.Name = "Barras";
+            this.Barras.ReadOnly = true;
+            this.Barras.Width = 125;
+            // 
+            // precoDataGridViewTextBoxColumn
+            // 
+            this.precoDataGridViewTextBoxColumn.DataPropertyName = "Preco";
+            this.precoDataGridViewTextBoxColumn.HeaderText = "Preco";
+            this.precoDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.precoDataGridViewTextBoxColumn.Name = "precoDataGridViewTextBoxColumn";
+            this.precoDataGridViewTextBoxColumn.ReadOnly = true;
+            this.precoDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // estoqueDataGridViewTextBoxColumn
+            // 
+            this.estoqueDataGridViewTextBoxColumn.DataPropertyName = "Estoque";
+            this.estoqueDataGridViewTextBoxColumn.HeaderText = "Estoque";
+            this.estoqueDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.estoqueDataGridViewTextBoxColumn.Name = "estoqueDataGridViewTextBoxColumn";
+            this.estoqueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.estoqueDataGridViewTextBoxColumn.Width = 125;
             // 
             // bindingSourceProduto
             // 
@@ -168,46 +204,11 @@
             this.textBoxBuscarPorProduto.Size = new System.Drawing.Size(344, 27);
             this.textBoxBuscarPorProduto.TabIndex = 22;
             // 
-            // nomeDataGridViewTextBoxColumn
-            // 
-            this.nomeDataGridViewTextBoxColumn.DataPropertyName = "Nome";
-            this.nomeDataGridViewTextBoxColumn.HeaderText = "Nome";
-            this.nomeDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.nomeDataGridViewTextBoxColumn.Name = "nomeDataGridViewTextBoxColumn";
-            this.nomeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nomeDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // Barras
-            // 
-            this.Barras.DataPropertyName = "Barras";
-            this.Barras.HeaderText = "Barras";
-            this.Barras.MinimumWidth = 6;
-            this.Barras.Name = "Barras";
-            this.Barras.ReadOnly = true;
-            this.Barras.Width = 125;
-            // 
-            // precoDataGridViewTextBoxColumn
-            // 
-            this.precoDataGridViewTextBoxColumn.DataPropertyName = "Preco";
-            this.precoDataGridViewTextBoxColumn.HeaderText = "Preco";
-            this.precoDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.precoDataGridViewTextBoxColumn.Name = "precoDataGridViewTextBoxColumn";
-            this.precoDataGridViewTextBoxColumn.ReadOnly = true;
-            this.precoDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // estoqueDataGridViewTextBoxColumn
-            // 
-            this.estoqueDataGridViewTextBoxColumn.DataPropertyName = "Estoque";
-            this.estoqueDataGridViewTextBoxColumn.HeaderText = "Estoque";
-            this.estoqueDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.estoqueDataGridViewTextBoxColumn.Name = "estoqueDataGridViewTextBoxColumn";
-            this.estoqueDataGridViewTextBoxColumn.ReadOnly = true;
-            this.estoqueDataGridViewTextBoxColumn.Width = 125;
-            // 
             // FormBuscarProduto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.buttonCancelarProduto;
             this.ClientSize = new System.Drawing.Size(1020, 450);
             this.Controls.Add(this.comboBoxProduto);
             this.Controls.Add(this.dataGridViewProduto);

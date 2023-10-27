@@ -18,7 +18,12 @@ namespace UWinFormsApp
         public FormCadastrarUsuario(int _id = 0)
         {
             InitializeComponent();
-            id = _id;   
+            id = _id;
+
+            if (id == 0)
+                bindingSourceCadastro.AddNew();
+            else
+                bindingSourceCadastro.DataSource = new UsuarioBLL().BuscarPorId(id);
         }
 
         private void label1_Click(object sender, EventArgs e)
